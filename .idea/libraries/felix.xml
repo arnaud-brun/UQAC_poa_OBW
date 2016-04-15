@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="felix">
+    <CLASSES>
+      <root url="jar://C:/Program Files/Java/felix-framework-5.4.0/bin/felix.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
