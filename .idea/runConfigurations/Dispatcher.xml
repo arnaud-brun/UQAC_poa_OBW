@@ -3,7 +3,7 @@
     <bundle name="BundleDispatcher" startLevel="2" type="Module" startAfterInstallation="true" />
     <bundle name="HelloBundle" startLevel="1" type="Module" startAfterInstallation="true" />
     <framework instance="Felix (5.4.0)" />
-    <additionalProperties systemPackages="" debugMode="false" startConsole="true" bootDelegation="" />
+    <additionalProperties startConsole="true" systemPackages="" debugMode="false" bootDelegation="" />
     <method />
   </configuration>
 </component>

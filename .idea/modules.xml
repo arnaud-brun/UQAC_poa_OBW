@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/HelloBundle/HelloBundle.iml" filepath="$PROJECT_DIR$/HelloBundle/HelloBundle.iml" />
       <module fileurl="file://$PROJECT_DIR$/Launcher/Launcher.iml" filepath="$PROJECT_DIR$/Launcher/Launcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/OSGI_tests.iml" filepath="$PROJECT_DIR$/OSGI_tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/Server.iml" filepath="$PROJECT_DIR$/Server/Server.iml" />
     </modules>
   </component>
 </project>
