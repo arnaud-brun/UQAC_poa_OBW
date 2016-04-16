@@ -15,7 +15,7 @@ public class BundleManager {
 
     public static void main(String[] args){
         BundleManager manager = new BundleManager();
-        manager.initializeBundles("HelloBundle");
+        manager.initializeBundles("HelloBundle", "BundleDispatcher");
     }
 
     private Bundle getBundleByName(String bundleName) {

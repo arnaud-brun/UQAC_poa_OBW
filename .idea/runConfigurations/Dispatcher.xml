@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Dispatcher" type="#org.osmorc.OsgiConfigurationType" factoryName="OSGi Bundles" vmParameters="" programParameters="" includeAllBundlesInClassPath="false" workingDir="$PROJECT_DIR$/out/run.osgi/" useAlternativeJre="false" alternativeJrePath="" frameworkStartLevel="2" defaultStartLevel="5" generateWorkingDir="false">
+    <bundle name="BundleDispatcher" startLevel="2" type="Module" startAfterInstallation="true" />
+    <bundle name="HelloBundle" startLevel="1" type="Module" startAfterInstallation="true" />
+    <framework instance="Felix (5.4.0)" />
+    <additionalProperties systemPackages="" debugMode="false" startConsole="true" bootDelegation="" />
+    <method />
+  </configuration>
+</component>

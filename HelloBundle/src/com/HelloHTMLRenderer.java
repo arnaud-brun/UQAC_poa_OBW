@@ -9,10 +9,17 @@ import java.awt.*;
 /**
  * Created by Arnaud on 15/04/2016.
  */
-public class HelloHTMLRenderer {
+public class HelloHTMLRenderer implements ViewerHTML{
 
-    public HelloHTMLRenderer(){
+    private String htmlContent = "";
 
+    @Override
+    public void setHTML(String html) {
+        htmlContent = html;
+    }
+
+    @Override
+    public void display(){
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
@@ -30,18 +37,20 @@ public class HelloHTMLRenderer {
                 styleSheet.addRule("body {color:#000; font-family:times; margin: 4px; }");
 
                 // create some simple html as a string
-                String htmlString = "<html>\n"
+                /*String htmlString = "<html>\n"
                         + "<body>\n"
                         + "<h1>Welcome World!</h1>\n"
                         + "<h2>This is an H2 header</h2>\n"
                         + "<p>This is some sample text</p>\n"
                         + "<p><a href=\"http://devdaily.com/blog/\">devdaily blog</a></p>\n"
-                        + "</body>\n";
+                        + "</body>\n";*/
+
 
                 // create a document, set it on the jeditorpane, then add the html
                 Document doc = kit.createDefaultDocument();
                 jEditorPane.setDocument(doc);
-                jEditorPane.setText(htmlString);
+                //jEditorPane.setText(htmlString);
+                jEditorPane.setText(htmlContent);
 
 
                 // now add it all to a frame
