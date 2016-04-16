@@ -16,7 +16,7 @@ public class ClientHandler implements Runnable {
     private InputStream clientInput;
     private ObjectInputStream clientObject;
     private Object objectInput;
-
+    private String pathToResources = System.getProperty("user.dir") + "/Server/resources/";
     /**
      * Create a connection with the client
      * @param clientSock
@@ -121,7 +121,7 @@ public class ClientHandler implements Runnable {
      */
     private String getStringFromFile(String[] commandArray) throws FileNotFoundException {
         //Define where to get the file
-        String pathToFile = System.getProperty("user.dir") + "/resources/" + commandArray[0] + "/" + commandArray[1] + ".html";
+        String pathToFile = pathToResources + commandArray[0] + "/" + commandArray[1] + ".html";
         System.out.println("Opening..." + pathToFile);
 
         //Retrieve the content of the file
