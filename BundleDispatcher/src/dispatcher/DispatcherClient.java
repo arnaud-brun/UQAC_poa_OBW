@@ -8,7 +8,6 @@ import org.osgi.framework.ServiceReference;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 /**
  * Created by Arnaud on 15/04/2016.
@@ -26,26 +25,12 @@ public class DispatcherClient {
     public DispatcherClient(BundleContext c){
         this.context = c;
 
-        String html = "";
-        String line;
-        // init connection to server and event listener
-
-
-        // fake input managmenet
-
-
         // Query for all service references matching any language.
         try {
             ServiceReference[] refs = context.getServiceReferences(ViewerHTML.class.getName(), "(Service=Viewer)");
             if (refs != null)
             {
-                System.out.println("Enter a html phrase");
-                String pathToFile = getMessageFromClient("newsletters,sports-experts");
-
-                ViewerHTML v = (ViewerHTML) context.getService(refs[0]);
-
-                v.setHTMLUrl(pathToFile);
-                v.display();
+                this.interactWithClient(refs);
             }
             else
             {
@@ -55,6 +40,22 @@ public class DispatcherClient {
 
         } catch (InvalidSyntaxException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void interactWithClient(ServiceReference[] refs){
+        //infinite looop to handle specific newsletter or promotion of specific trademark
+        boolean exit = false;
+        while(!exit){
+            //get disponoibilities from server
+            String pathToFile = getMessageFromClient("newsletters,launch.it");
+
+            ViewerHTML v = (ViewerHTML) context.getService(refs[0]);
+
+            v.setHTMLUrl(pathToFile);
+            v.display();
+
+            exit = true;
         }
     }
 

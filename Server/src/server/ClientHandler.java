@@ -1,7 +1,6 @@
 package server;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -76,6 +75,9 @@ public class ClientHandler implements Runnable {
 
         ArrayList<String> contextList = new ArrayList<>();
         contextList.add("walmart");
+        contextList.add("cup-cake");
+        contextList.add("kreative");
+        contextList.add("launch.it");
         contextList.add("sports-experts");
 
         //Check if the command is well formed
@@ -121,7 +123,7 @@ public class ClientHandler implements Runnable {
      */
     private String getPathToFile(String[] commandArray) {
         //Define where to get the file
-        return pathToResources + commandArray[0] + "/" + commandArray[1] + ".html";
+        return pathToResources + commandArray[0] + "/" + commandArray[1] + "/" + commandArray[1] + ".html";
     }
 
     /**

@@ -38,16 +38,6 @@ public class HelloHTMLRenderer implements ViewerHTML{
                 StyleSheet styleSheet = kit.getStyleSheet();
                 styleSheet.addRule("body {color:#000; font-family:times; margin: 4px; }");
 
-                // create some simple html as a string
-                /*String htmlString = "<html>\n"
-                        + "<body>\n"
-                        + "<h1>Welcome World!</h1>\n"
-                        + "<h2>This is an H2 header</h2>\n"
-                        + "<p>This is some sample text</p>\n"
-                        + "<p><a href=\"http://devdaily.com/blog/\">devdaily blog</a></p>\n"
-                        + "</body>\n";*/
-
-
                 // create a document, set it on the jeditorpane, then add the html
                 Document doc = kit.createDefaultDocument();
                 jEditorPane.setDocument(doc);
