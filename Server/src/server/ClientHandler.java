@@ -15,6 +15,7 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream clientObject;
     private Object objectInput;
     private String pathToResources = System.getProperty("user.dir") + "/resources/";
+    private ArrayList<String> newslettersList = new ArrayList<>();
 
     /**
      * Create a connection with the client
@@ -22,6 +23,7 @@ public class ClientHandler implements Runnable {
      * @param clientSock
      */
     public ClientHandler(Socket clientSock) {
+        setPossibleNewslettersToSend();
         this.clientSock = clientSock;
     }
 
@@ -39,20 +41,24 @@ public class ClientHandler implements Runnable {
 
             //If the object is a Commande, then treat the object.
             if (objectInput.getClass() == String.class) {
-                if (isValidCommand((String) objectInput)) {
+                if(objectInput.equals("list-newsletters")){
+                    sendToClient(newslettersList.toString().replace("[", "").replace("]", ""));
+                } else if (isValidCommand((String) objectInput)) {
                     treatCommand((String) objectInput);
                 } else {
                     treatCommand("error");
                 }
             }
 
-            //Display an error message if there is a problem
+        //Display an error message if there is a problem
         } catch (ClassNotFoundException e) {
             sendToClient("[ERROR] Invalid command.");
         } catch (FileNotFoundException e) {
             sendToClient("[ERROR] Couldn't find file needed.");
         } catch (IOException e) {
             sendToClient("[ERROR] Invalid command.");
+
+        //In any case, close the connection
         } finally {
             try {
                 clientObject.close();
@@ -64,44 +70,32 @@ public class ClientHandler implements Runnable {
     }
 
     /**
+     * Retrieve the possible newsletters to display
+     */
+    private void setPossibleNewslettersToSend(){
+        //Get the newsletter directory
+        File directory = new File(pathToResources + "/newsletters");
+
+        //List all the folders from the directory
+        for(File file : directory.listFiles()) {
+            if (file.isDirectory()) {
+                newslettersList.add(file.getName());
+            }
+        }
+    }
+
+    /**
      * Check if a command is valid
      *
      * @param command
      * @return true or false
      */
     private boolean isValidCommand(String command) {
-
-        //Define lists of possible commands
-        ArrayList<String> optionList = new ArrayList<>();
-        optionList.add("newsletters");
-
-        ArrayList<String> contextList = new ArrayList<>();
-        contextList.add("walmart");
-        contextList.add("cup-cake");
-        contextList.add("kreative");
-        contextList.add("launch.it");
-        contextList.add("sports-experts");
-
-        //Check if the command is well formed
-        if (command.split(",").length != 2) {
-            System.out.println(command.split(",").toString());
-            return false;
+        //Check if the command is in the newsletter list
+        if (newslettersList.contains(command)){
+            return true;
         }
-
-        //Check the first argument
-        if (!optionList.contains(command.split(",")[0])) {
-            System.out.println(optionList.contains(command.split(",")[0]));
-            return false;
-        }
-
-        //Check the second argument
-        if (!contextList.contains(command.split(",")[1])) {
-            System.out.println(contextList.contains(command.split(",")[1]));
-            return false;
-        }
-
-        //If all checks ar OK, return true
-        return true;
+        return false;
     }
 
     /**
@@ -122,12 +116,12 @@ public class ClientHandler implements Runnable {
     /**
      * Retrieve a String from an html file
      *
-     * @param commandArray - the array defining the command
+     * @param command - the command given by the client
      * @return the string retrieved
      */
-    private String getPathToFile(String[] commandArray) {
+    private String getPathToFile(String command) {
         //Define where to get the file
-        return pathToResources + commandArray[0] + "/" + commandArray[1] + "/" + commandArray[1] + ".html";
+        return pathToResources + "newsletters/" + command + "/" + command + ".html";
     }
 
     /**
@@ -137,8 +131,7 @@ public class ClientHandler implements Runnable {
      */
     private void treatCommand(String command) {
         if (command != "error") {
-            String[] commandArray = command.split(",");
-            String stringToReturn = getPathToFile(commandArray);
+            String stringToReturn = getPathToFile(command);
             sendToClient(stringToReturn);
         } else {
             sendToClient(pathToResources + "error.html");

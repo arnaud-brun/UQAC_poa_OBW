@@ -8,6 +8,8 @@ import org.osgi.framework.ServiceReference;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -40,55 +42,61 @@ public class DispatcherClient {
      * Wait for an input and communicate with the server
      */
     private void waitForInterraction(){
+        //Define variables
         boolean exit = false;
         Scanner keyboardInput = new Scanner(System.in);
-        int commandNum = -1;
+        int commandNum;
+
+        //Ask the server the list of possible newsletters
+        ArrayList<String> newsletters = askPossibleNewslettersFromServer();
+
+        //Display the list to the client
+        System.out.println("Here are the possible newsletters :");
+        System.out.println("[0] Exit program.");
+        for(int i = 1 ; i < newsletters.size() ; i++){
+            System.out.println("[" + i + "] " + newsletters.get(i) );
+        }
+        System.out.println("\n");
 
         //infinite loop to handle specific newsletter or promotion of specific trademark
         while (true) {
 
-            //Get client input
+            //Get the client input
             System.out.print("Input : ");
-            while(commandNum < 0) {
-                try {
-                    commandNum = keyboardInput.nextInt();
-                } catch (Exception e){
-                    System.out.println("Please, enter a correct number.");
-                }
+            try {
+                commandNum = Integer.parseInt(keyboardInput.nextLine());
+            } catch (NumberFormatException e) {
+                commandNum = -1;
             }
 
-            //Get a proper command
-            switch (commandNum) {
-                case 0:
-                    exit = true;
-                    command = "";
-                    break;
-                case 1:
-                    command = "newsletters,launch.it";
-                    break;
-                case 2:
-                    command = "newsletters,cup-cake";
-                    break;
-                case 3:
-                    command = "newsletters,sports-experts";
-                    break;
-                case 4:
-                    command = "newsletters,walmart";
-                    break;
-                default:
-                    command = "error";
-                    break;
-            }
-
-            //Exit if command number was 0
-            if (exit) {
-                break;
-
-            //If not, interract with the server
+            //Define what to do with the input
+            if(commandNum > 0 && commandNum < newsletters.size()){
+                interactWithServer(newsletters.get(commandNum));
+            } else if (commandNum != 0) {
+                interactWithServer("error");
             } else {
-                interactWithServer(command);
+                break;
             }
         }
+    }
+
+    /**
+     * Ask the server the list of all possible newsletters to display
+     * @return a list of string defining newsletters
+     */
+    private ArrayList<String> askPossibleNewslettersFromServer(){
+        //Create a news array list and ask the server
+        ArrayList<String> newsletters = new ArrayList();
+        String serverResponse = getMessageFromServer("list-newsletters");
+
+        //Define the array
+        newsletters.add("exit");
+        for(String newsletter : serverResponse.split(", ")){
+            newsletters.add(newsletter);
+        }
+
+        //Return the array
+        return newsletters;
     }
 
     /**
