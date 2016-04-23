@@ -25,6 +25,9 @@ public class DispatcherClient {
 
     public DispatcherClient(BundleContext c){
         this.context = c;
+
+        String html = "";
+        String line;
         // init connection to server and event listener
 
 
@@ -33,15 +36,15 @@ public class DispatcherClient {
 
         // Query for all service references matching any language.
         try {
-            ServiceReference[] refs = context.getServiceReferences(
-                    ViewerHTML.class.getName(), "(Service=Viewer)");
+            ServiceReference[] refs = context.getServiceReferences(ViewerHTML.class.getName(), "(Service=Viewer)");
             if (refs != null)
             {
                 System.out.println("Enter a html phrase");
-                String content = getMessageFromClient("newsletters,walmart");
+                String pathToFile = getMessageFromClient("newsletters,sports-experts");
 
                 ViewerHTML v = (ViewerHTML) context.getService(refs[0]);
-                v.setHTML(content);
+
+                v.setHTMLUrl(pathToFile);
                 v.display();
             }
             else
