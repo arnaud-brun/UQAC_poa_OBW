@@ -43,7 +43,7 @@ public class HTMLRenderer implements ViewerHTML {
                 j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
                 //Display the window
-                j.setSize(new Dimension(300, 200));
+                j.setSize(new Dimension(1024, 768));
                 j.setLocationRelativeTo(null);
                 j.setVisible(true);
             }
