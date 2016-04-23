@@ -11,8 +11,11 @@ import java.util.Hashtable;
 public class HTMLRendererActivator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
+        //Define  the service properties for referencing it
         Hashtable<String, String> prop = new Hashtable<String, String>();
         prop.put("Service", "Viewer");
+
+        //Register a service with the given properties
         bundleContext.registerService(ViewerHTML.class.getName(), new HTMLRenderer(), prop);
         System.out.println("    [DONE] HTML Renderer bundle has been properly initialized\n");
     }

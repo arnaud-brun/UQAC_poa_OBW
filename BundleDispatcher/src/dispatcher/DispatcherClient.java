@@ -23,7 +23,6 @@ public class DispatcherClient {
     private ObjectOutputStream clientObject;
     private BufferedReader serverInput;
     private Socket socket;
-    private String command;
 
     public DispatcherClient(BundleContext c) {
         this.context = c;
@@ -31,6 +30,7 @@ public class DispatcherClient {
         // Query for all service references matching any language.
         try {
             refs = context.getServiceReferences(ViewerHTML.class.getName(), "(Service=Viewer)");
+            // Simulate context
             waitForInterraction();
         } catch (InvalidSyntaxException e) {
             e.printStackTrace();
@@ -41,11 +41,6 @@ public class DispatcherClient {
      * Wait for an input and communicate with the server
      */
     private void waitForInterraction(){
-        //Define variables
-        boolean exit = false;
-        Scanner keyboardInput = new Scanner(System.in);
-        int commandNum;
-
         //Ask the server the list of possible newsletters
         ArrayList<String> newsletters = askPossibleNewslettersFromServer();
 
@@ -56,6 +51,10 @@ public class DispatcherClient {
             System.out.println("[" + i + "] " + newsletters.get(i) );
         }
         System.out.println("\n");
+
+        //Variable for user interaction : simulate context
+        Scanner keyboardInput = new Scanner(System.in);
+        int commandNum;
 
         //infinite loop to handle specific newsletter or promotion of specific trademark
         while (true) {
@@ -107,8 +106,8 @@ public class DispatcherClient {
         //get disponibilities from server
         String pathToFile = getMessageFromServer(command);
 
+        //render the newsletter on the viewer service
         ViewerHTML v = (ViewerHTML) context.getService(refs[0]);
-
         v.setHTMLUrl(pathToFile);
         v.display();
     }
