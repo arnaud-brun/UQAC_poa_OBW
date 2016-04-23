@@ -1,9 +1,6 @@
 package com;
 
 import javax.swing.*;
-import javax.swing.text.Document;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by Arnaud on 15/04/2016.
  */
-public class HelloHTMLRenderer implements ViewerHTML {
+public class HTMLRenderer implements ViewerHTML {
 
     private String htmlUrl = "";
 

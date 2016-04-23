@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="HTMLRenderer" type="#org.osmorc.OsgiConfigurationType" factoryName="OSGi Bundles" vmParameters="" programParameters="" includeAllBundlesInClassPath="false" workingDir="$PROJECT_DIR$/out/run.osgi/" useAlternativeJre="false" alternativeJrePath="" frameworkStartLevel="1" defaultStartLevel="5" generateWorkingDir="false">
+    <bundle name="BundleHTMLRenderer" startLevel="1" type="Module" startAfterInstallation="true" />
+    <framework instance="Felix (5.4.0)" />
+    <additionalProperties startConsole="false" systemPackages="" debugMode="false" bootDelegation="" />
+    <method />
+  </configuration>
+</component>

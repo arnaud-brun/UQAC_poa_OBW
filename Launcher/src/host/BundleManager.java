@@ -3,7 +3,6 @@ package host;
 import org.osgi.framework.Bundle;
 
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 public class BundleManager {
 
@@ -16,7 +15,7 @@ public class BundleManager {
 
     public static void main(String[] args) {
         BundleManager manager = new BundleManager();
-        manager.initializeBundles("HelloBundle", "BundleDispatcher");
+        manager.initializeBundles("HTMLRenderer", "BundleDispatcher");
     }
 
     private Bundle getBundleByName(String bundleName) {

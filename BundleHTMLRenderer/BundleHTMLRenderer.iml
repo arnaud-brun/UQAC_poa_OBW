@@ -2,9 +2,9 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
-      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="HelloBundle.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="com.HelloActivator" bundleSymbolicName="Hello" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="HTMLRenderer.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="com.HTMLRendererActivator" bundleSymbolicName="HTMLRenderer" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
         <additionalProperties>
-          <property key="Bundle-Name" value="Hello " />
+          <property key="Bundle-Name" value="HTMLRenderer " />
           <property key="Export-Package" value="com;" />
         </additionalProperties>
         <additionalJARContents />
