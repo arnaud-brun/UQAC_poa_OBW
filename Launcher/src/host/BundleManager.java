@@ -3,6 +3,7 @@ package host;
 import org.osgi.framework.Bundle;
 
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class BundleManager {
 
@@ -13,7 +14,7 @@ public class BundleManager {
         this.jarPath = Paths.get("./out/bundles").toAbsolutePath().normalize().toString();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         BundleManager manager = new BundleManager();
         manager.initializeBundles("HelloBundle", "BundleDispatcher");
     }
@@ -29,12 +30,12 @@ public class BundleManager {
     }
 
     private void initializeBundles(String... bundles) {
-        for(String b: bundles) {
+        for (String b : bundles) {
             initializeBundle(b);
         }
     }
 
-    private void shutdown(){
+    private void shutdown() {
         app.shutdownApplication();
     }
 }

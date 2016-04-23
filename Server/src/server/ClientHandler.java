@@ -15,11 +15,13 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream clientObject;
     private Object objectInput;
     private String pathToResources = System.getProperty("user.dir") + "/resources/";
+
     /**
      * Create a connection with the client
+     *
      * @param clientSock
      */
-    public ClientHandler(Socket clientSock){
+    public ClientHandler(Socket clientSock) {
         this.clientSock = clientSock;
     }
 
@@ -36,18 +38,18 @@ public class ClientHandler implements Runnable {
             objectInput = clientObject.readObject();
 
             //If the object is a Commande, then treat the object.
-            if(objectInput.getClass() == String.class){
-                if(isValidCommand((String) objectInput)) {
+            if (objectInput.getClass() == String.class) {
+                if (isValidCommand((String) objectInput)) {
                     treatCommand((String) objectInput);
                 } else {
                     treatCommand("error");
                 }
             }
 
-        //Display an error message if there is a problem
+            //Display an error message if there is a problem
         } catch (ClassNotFoundException e) {
             sendToClient("[ERROR] Invalid command.");
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             sendToClient("[ERROR] Couldn't find file needed.");
         } catch (IOException e) {
             sendToClient("[ERROR] Invalid command.");
@@ -63,15 +65,15 @@ public class ClientHandler implements Runnable {
 
     /**
      * Check if a command is valid
+     *
      * @param command
      * @return true or false
      */
-    private boolean isValidCommand(String command){
+    private boolean isValidCommand(String command) {
 
         //Define lists of possible commands
         ArrayList<String> optionList = new ArrayList<>();
         optionList.add("newsletters");
-        optionList.add("promotions");
 
         ArrayList<String> contextList = new ArrayList<>();
         contextList.add("walmart");
@@ -81,19 +83,19 @@ public class ClientHandler implements Runnable {
         contextList.add("sports-experts");
 
         //Check if the command is well formed
-        if (command.split(",").length != 2){
+        if (command.split(",").length != 2) {
             System.out.println(command.split(",").toString());
             return false;
         }
 
         //Check the first argument
-        if (!optionList.contains(command.split(",")[0])){
+        if (!optionList.contains(command.split(",")[0])) {
             System.out.println(optionList.contains(command.split(",")[0]));
             return false;
         }
 
         //Check the second argument
-        if (!contextList.contains(command.split(",")[1])){
+        if (!contextList.contains(command.split(",")[1])) {
             System.out.println(contextList.contains(command.split(",")[1]));
             return false;
         }
@@ -104,12 +106,13 @@ public class ClientHandler implements Runnable {
 
     /**
      * Send a message to the client
+     *
      * @param message
      */
-    private void sendToClient(String message){
+    private void sendToClient(String message) {
 
         //Send the message to the client
-        if(output != null){
+        if (output != null) {
             System.out.println(message);
             output.write(message);
             output.flush();
@@ -118,6 +121,7 @@ public class ClientHandler implements Runnable {
 
     /**
      * Retrieve a String from an html file
+     *
      * @param commandArray - the array defining the command
      * @return the string retrieved
      */
@@ -128,10 +132,11 @@ public class ClientHandler implements Runnable {
 
     /**
      * Treat a command
+     *
      * @param command - a String defining the command
      */
     private void treatCommand(String command) {
-        if(command != "error") {
+        if (command != "error") {
             String[] commandArray = command.split(",");
             String stringToReturn = getPathToFile(commandArray);
             sendToClient(stringToReturn);

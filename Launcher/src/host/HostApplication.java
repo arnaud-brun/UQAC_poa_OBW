@@ -29,11 +29,11 @@ class HostApplication {
         }
     }
 
-    void registerBundle(String bundleName, String pathToJar){
+    void registerBundle(String bundleName, String pathToJar) {
         BundleContext bundleContext = felixInstance.getBundleContext();
         try {
             //Retrieve the bundle from its jar
-            Bundle bundle = bundleContext.installBundle("file:"+pathToJar);
+            Bundle bundle = bundleContext.installBundle("file:" + pathToJar);
             bundle.start();
             this.loadedBundle.put(bundleName, bundle);
         } catch (BundleException e) {

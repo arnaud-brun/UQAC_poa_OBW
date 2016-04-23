@@ -6,7 +6,6 @@ package com;
 public interface ViewerHTML {
 
     void setHTMLUrl(String html);
+
     void display();
-
-
 }

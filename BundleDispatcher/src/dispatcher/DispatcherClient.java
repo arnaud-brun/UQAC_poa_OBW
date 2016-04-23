@@ -8,60 +8,86 @@ import org.osgi.framework.ServiceReference;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 /**
  * Created by Arnaud on 15/04/2016.
  */
 public class DispatcherClient {
-
+    private ServiceReference[] refs;
+    private static int port = 2016;
+    private static String hostname = "localhost";
     BundleContext context;
     private OutputStream clientOutput;
     private ObjectOutputStream clientObject;
     private BufferedReader serverInput;
     private Socket socket;
-    private static int port = 2016;
-    private static String hostname = "localhost";
+    private String command;
 
-    public DispatcherClient(BundleContext c){
+    public DispatcherClient(BundleContext c) {
         this.context = c;
 
         // Query for all service references matching any language.
         try {
-            ServiceReference[] refs = context.getServiceReferences(ViewerHTML.class.getName(), "(Service=Viewer)");
-            if (refs != null)
-            {
-                this.interactWithClient(refs);
-            }
-            else
-            {
-                System.out.println("Couldn't find any viewer service...");
-            }
-
-
+            refs = context.getServiceReferences(ViewerHTML.class.getName(), "(Service=Viewer)");
+            waitForInterraction();
         } catch (InvalidSyntaxException e) {
             e.printStackTrace();
         }
     }
 
-    private void interactWithClient(ServiceReference[] refs){
-        //infinite looop to handle specific newsletter or promotion of specific trademark
-        boolean exit = false;
-        while(!exit){
-            //get disponoibilities from server
-            String pathToFile = getMessageFromClient("newsletters,launch.it");
+    private void waitForInterraction(){
+        //infinite loop to handle specific newsletter or promotion of specific trademark
+            boolean exit = false;
+            Scanner keyboardInput = new Scanner(System.in);
+            int commandNum;
 
-            ViewerHTML v = (ViewerHTML) context.getService(refs[0]);
-
-            v.setHTMLUrl(pathToFile);
-            v.display();
-
-            exit = true;
-        }
+            while (true) {
+                System.out.print("input : ");
+                commandNum = keyboardInput.nextInt();
+                System.out.println("Input was " + commandNum);
+                switch (commandNum) {
+                    case 0:
+                        exit = true;
+                        command = "";
+                        break;
+                    case 1:
+                        command = "newsletters,launch.it";
+                        break;
+                    case 2:
+                        command = "newsletters,cup-cake";
+                        break;
+                    case 3:
+                        command = "newsletters,sports-experts";
+                        break;
+                    case 4:
+                        command = "newsletters,walmart";
+                        break;
+                    default:
+                        command = "error";
+                        break;
+                }
+                if (exit) {
+                    break;
+                } else {
+                    interactWithServer(command);
+                }
+            }
     }
 
-    private String getMessageFromClient(String command){
+    private void interactWithServer(String command) {
+        //get disponibilities from server
+        String pathToFile = getMessageFromServer(command);
+
+        ViewerHTML v = (ViewerHTML) context.getService(refs[0]);
+
+        v.setHTMLUrl(pathToFile);
+        v.display();
+    }
+    
+    private String getMessageFromServer(String command) {
         String stringToReturn = "";
-        try{
+        try {
             //Create a socket to the server
             socket = new Socket(hostname, port);
 
@@ -77,12 +103,12 @@ public class DispatcherClient {
 
             //Read the server response
             String line;
-            while((line = serverInput.readLine()) != null) {
+            while ((line = serverInput.readLine()) != null) {
                 stringToReturn += line;
             }
 
             //If the host is unreachable, display an error message
-        } catch (UnknownHostException e){
+        } catch (UnknownHostException e) {
             System.out.println("Error : error with the hostname address. Please check the IP.");
             System.exit(-2);
 
@@ -104,6 +130,4 @@ public class DispatcherClient {
 
         return stringToReturn;
     }
-
-
 }
