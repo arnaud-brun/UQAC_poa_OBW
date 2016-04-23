@@ -36,45 +36,66 @@ public class DispatcherClient {
         }
     }
 
+    /**
+     * Wait for an input and communicate with the server
+     */
     private void waitForInterraction(){
-        //infinite loop to handle specific newsletter or promotion of specific trademark
-            boolean exit = false;
-            Scanner keyboardInput = new Scanner(System.in);
-            int commandNum;
+        boolean exit = false;
+        Scanner keyboardInput = new Scanner(System.in);
+        int commandNum = -1;
 
-            while (true) {
-                System.out.print("input : ");
-                commandNum = keyboardInput.nextInt();
-                System.out.println("Input was " + commandNum);
-                switch (commandNum) {
-                    case 0:
-                        exit = true;
-                        command = "";
-                        break;
-                    case 1:
-                        command = "newsletters,launch.it";
-                        break;
-                    case 2:
-                        command = "newsletters,cup-cake";
-                        break;
-                    case 3:
-                        command = "newsletters,sports-experts";
-                        break;
-                    case 4:
-                        command = "newsletters,walmart";
-                        break;
-                    default:
-                        command = "error";
-                        break;
-                }
-                if (exit) {
-                    break;
-                } else {
-                    interactWithServer(command);
+        //infinite loop to handle specific newsletter or promotion of specific trademark
+        while (true) {
+
+            //Get client input
+            System.out.print("Input : ");
+            while(commandNum < 0) {
+                try {
+                    commandNum = keyboardInput.nextInt();
+                } catch (Exception e){
+                    System.out.println("Please, enter a correct number.");
                 }
             }
+
+            //Get a proper command
+            switch (commandNum) {
+                case 0:
+                    exit = true;
+                    command = "";
+                    break;
+                case 1:
+                    command = "newsletters,launch.it";
+                    break;
+                case 2:
+                    command = "newsletters,cup-cake";
+                    break;
+                case 3:
+                    command = "newsletters,sports-experts";
+                    break;
+                case 4:
+                    command = "newsletters,walmart";
+                    break;
+                default:
+                    command = "error";
+                    break;
+            }
+
+            //Exit if command number was 0
+            if (exit) {
+                break;
+
+            //If not, interract with the server
+            } else {
+                interactWithServer(command);
+            }
+        }
     }
 
+    /**
+     * Send a command to the server and display an
+     * HTML page.
+     * @param command - The command to send
+     */
     private void interactWithServer(String command) {
         //get disponibilities from server
         String pathToFile = getMessageFromServer(command);
@@ -84,7 +105,13 @@ public class DispatcherClient {
         v.setHTMLUrl(pathToFile);
         v.display();
     }
-    
+
+    /**
+     * Send a command to the server and retrieve its
+     * responses
+     * @param command - The command to send
+     * @return a message from the server
+     */
     private String getMessageFromServer(String command) {
         String stringToReturn = "";
         try {
@@ -114,7 +141,7 @@ public class DispatcherClient {
 
             //If something happen during the execution, display an error message
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error : cannot connect to server.");
             System.exit(-2);
         } finally {
             //Close the streams and the socket

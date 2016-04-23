@@ -24,30 +24,29 @@ public class HelloHTMLRenderer implements ViewerHTML {
     public void display() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
+                //Create a panel
                 JEditorPane jEditorPane = new JEditorPane();
                 jEditorPane.setEditable(false);
                 JScrollPane scrollPane = new JScrollPane(jEditorPane);
 
+                //Try to access the html file
                 File htmlFile = new File(htmlUrl);
-
                 try {
                     jEditorPane.setPage(htmlFile.toURI().toURL());
                 } catch (IOException e) {
                     jEditorPane.setText("<h1>Error : couldn't load file</h1>");
-                    e.printStackTrace();
                 }
 
-                // now add it all to a frame
+                // Add all to a windows
                 JFrame j = new JFrame("Newsletter");
                 j.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-                // make it easy to close the application
-                j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //Set proper close operation
+                j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                // display the frame
+                //Display the window
                 j.setSize(new Dimension(300, 200));
-
-                // center the jframe, then make it visible
                 j.setLocationRelativeTo(null);
                 j.setVisible(true);
             }
