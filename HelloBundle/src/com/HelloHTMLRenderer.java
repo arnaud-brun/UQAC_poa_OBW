@@ -5,17 +5,19 @@ import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Arnaud on 15/04/2016.
  */
 public class HelloHTMLRenderer implements ViewerHTML{
 
-    private String htmlContent = "";
+    private String htmlUrl = "";
 
     @Override
-    public void setHTML(String html) {
-        htmlContent = html;
+    public void setHTMLUrl(String html) {
+        htmlUrl = html;
     }
 
     @Override
@@ -49,9 +51,15 @@ public class HelloHTMLRenderer implements ViewerHTML{
                 // create a document, set it on the jeditorpane, then add the html
                 Document doc = kit.createDefaultDocument();
                 jEditorPane.setDocument(doc);
-                //jEditorPane.setText(htmlString);
-                jEditorPane.setText(htmlContent);
 
+                File htmlFile = new File(htmlUrl);
+
+                try {
+                    jEditorPane.setPage(htmlFile.toURI().toURL());
+                } catch (IOException e) {
+                    jEditorPane.setText("<h1>Error : couldn't load file</h1>");
+                    e.printStackTrace();
+                }
 
                 // now add it all to a frame
                 JFrame j = new JFrame("Hello Bundle Test");

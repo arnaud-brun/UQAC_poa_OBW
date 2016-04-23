@@ -12,11 +12,10 @@ public class ClientHandler implements Runnable {
 
     private PrintWriter output = null; //The writer that will send messages to the client
     private Socket clientSock;
-    private static ServerSocket serverSocket;
     private InputStream clientInput;
     private ObjectInputStream clientObject;
     private Object objectInput;
-    private String pathToResources = System.getProperty("user.dir") + "/Server/resources/";
+    private String pathToResources = System.getProperty("user.dir") + "/resources/";
     /**
      * Create a connection with the client
      * @param clientSock
@@ -41,7 +40,9 @@ public class ClientHandler implements Runnable {
             if(objectInput.getClass() == String.class){
                 if(isValidCommand((String) objectInput)) {
                     treatCommand((String) objectInput);
-                } else throw new IOException();
+                } else {
+                    treatCommand("error");
+                }
             }
 
         //Display an error message if there is a problem
@@ -75,7 +76,7 @@ public class ClientHandler implements Runnable {
 
         ArrayList<String> contextList = new ArrayList<>();
         contextList.add("walmart");
-        contextList.add("sport-expert");
+        contextList.add("sports-experts");
 
         //Check if the command is well formed
         if (command.split(",").length != 2){
@@ -117,39 +118,23 @@ public class ClientHandler implements Runnable {
      * Retrieve a String from an html file
      * @param commandArray - the array defining the command
      * @return the string retrieved
-     * @throws FileNotFoundException
      */
-    private String getStringFromFile(String[] commandArray) throws FileNotFoundException {
+    private String getPathToFile(String[] commandArray) {
         //Define where to get the file
-        String pathToFile = pathToResources + commandArray[0] + "/" + commandArray[1] + ".html";
-        System.out.println("Opening..." + pathToFile);
-
-        //Retrieve the content of the file
-        String bufferString;
-        String stringToReturn = "";
-        BufferedReader br = new BufferedReader(new FileReader(pathToFile));
-
-        //Put the content in a string
-        try {
-            while ((bufferString = br.readLine()) != null) {
-                stringToReturn += bufferString;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Return the string
-        return stringToReturn;
+        return pathToResources + commandArray[0] + "/" + commandArray[1] + ".html";
     }
 
     /**
      * Treat a command
      * @param command - a String defining the command
-     * @throws FileNotFoundException
      */
-    private void treatCommand(String command) throws FileNotFoundException{
-        String[] commandArray = command.split(",");
-        String stringToReturn = getStringFromFile(commandArray);
-        sendToClient(stringToReturn);
+    private void treatCommand(String command) {
+        if(command != "error") {
+            String[] commandArray = command.split(",");
+            String stringToReturn = getPathToFile(commandArray);
+            sendToClient(stringToReturn);
+        } else {
+            sendToClient(pathToResources + "error.html");
+        }
     }
 }

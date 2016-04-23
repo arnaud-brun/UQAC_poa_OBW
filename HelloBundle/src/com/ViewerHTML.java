@@ -5,7 +5,7 @@ package com;
  */
 public interface ViewerHTML {
 
-    void setHTML(String html);
+    void setHTMLUrl(String html);
     void display();
 
 
